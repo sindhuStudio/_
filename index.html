@@ -274,6 +274,18 @@
             .services {
                 padding: 80px 0;
             }
+
+            /* New CSS for animation while scrolling */
+            .fade-in {
+                opacity: 0;
+                transform: translateY(50px);
+                transition: opacity 0.5s ease, transform 0.5s ease;
+            }
+
+            .fade-in.active {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
@@ -294,13 +306,13 @@
         </div>
     </header>
 
-    <div class="hero">
+    <div class="hero fade-in"> <!-- Adding fade-in class -->
         <h1>Welcome to My Photography World</h1>
         <p>Explore the beauty captured through my lenses.</p>
         <a href="#portfolio"><button>View Portfolio</button></a>
     </div>
 
-    <div class="services" id="services">
+    <div class="services fade-in" id="services"> <!-- Adding fade-in class -->
         <h2>Our Services</h2>
         <div class="service-item">
             <img src="service-icon1.png" alt="Service Icon 1">
@@ -319,7 +331,7 @@
         </div>
     </div>
     
-    <div class="portfolio" id="portfolio">
+    <div class="portfolio fade-in" id="portfolio"> <!-- Adding fade-in class -->
         <h2>My Photography</h2>
         <div class="gallery">
             <!-- Add your portfolio images here -->
@@ -332,7 +344,7 @@
         </div>
     </div>
 
-    <div class="contact" id="contact">
+    <div class="contact fade-in" id="contact"> <!-- Adding fade-in class -->
         <h2>Contact Me</h2>
         <p>Email: sindhupokhreal@yahoo.com</p>
         <p>Phone: (781) 000-8925</p>
@@ -344,7 +356,7 @@
         </form>
     </div>
 
-    <footer class="footer">
+    <footer class="footer fade-in"> <!-- Adding fade-in class -->
         <p>&copy; 2024 Sihdhu Studios Website. All rights reserved.</p>
     </footer>
 
@@ -355,6 +367,28 @@
             nav.classList.toggle('active');
             navToggle.classList.toggle('active');
         }
+
+        // Intersection Observer for the fade-in effect
+        const sections = document.querySelectorAll('.fade-in');
+
+        const options = {
+            root: null,
+            threshold: 0.2,
+            rootMargin: "0px"
+        };
+
+        const observer = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, options);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
     </script>
 </body>
 </html>
